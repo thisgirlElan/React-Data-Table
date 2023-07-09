@@ -1,0 +1,45 @@
+.table-container {
+width: 100%;
+display: flex;
+justify-content: center;
+max-height: 40em;
+overflow-y: scroll;
+background: rgb(218, 205, 166);
+border-radius: 10px 0;
+}
+
+.table-container table{
+    width: 95%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.table-container th, .table-container td {
+    border: 1px solid #363535;
+    padding: .2rem;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+    padding: .7rem;
+}
+
+.table-container td {
+    padding-left: 20px;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 7px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #fde88b86;
+    border-radius: 5px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}

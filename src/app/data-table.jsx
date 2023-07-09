@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import { Modal, Box, Typography, Button} from '@mui/material'
+import {Typography, Button} from '@mui/material'
 import BusinessData from './data'
+import '../modal.css'
+import '../table.css'
+import '../footer.css'
 
 class BusinessTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       businesses: [],
-      selectedOrder: null,
+      selectedOrder: {},
       isModalOpen: false,
-      rowsPerPage: 10,
+      rowsPerPage: 5,
       currentPage: 1
     }
   }
@@ -19,10 +22,9 @@ class BusinessTable extends Component {
   }
 
   openModal = (order) => {
-    console.log("order props", order)
     this.setState({
       isModalOpen: true,
-      selectedOrder: order
+      selectedOrder: order.details
     })
   };
 
@@ -34,20 +36,21 @@ class BusinessTable extends Component {
     })
   };
 
-  paginate = (pageNumber) => {
+  pageChange = (pageNumber) => {
     this.setState({
       currentPage: pageNumber
     })
   };
 
   render () {
-
     const indexOfLastRow = this.state.currentPage * this.state.rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - this.state.rowsPerPage;
     const currentRows = this.state.businesses.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(this.state.businesses.length / this.state.rowsPerPage)
     
     return (
-      <div>
+      <div className="main">
+        <div className="table-container">
       <table>
        <thead>
           <tr>
@@ -57,70 +60,90 @@ class BusinessTable extends Component {
         </thead>
         <tbody>
           {currentRows.map((business) => (
-            {...console.log("business name", business.businessname)},
-            <tr key={business.id}>
+            <tr className="tcell" key={business.id}>
               <td>{business.businessname}</td>
-              {business.order.map((order, index) => (
-              <td key={index} onClick={() => this.openModal(order.details)}>{order.item}</td>
-              ))}
+              <td>
+                {business.order.length > 0 ? (
+                  <ul>
+                    {business.order.map((order, index) => (
+                    <li className="list" key={index} onClick={() => this.openModal(order)}>{order.item}</li>
+                    ))}
+                  </ul>
+                ) :  (
+                  <ul>
+                 <li className="no-list">no order</li>
+                 </ul>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
 
-         <div>
-        Rows per page:
-        <select
+      <div className="footer">
+         <div className='pagination'>
+        <p className='row-text'>Rows per page: </p>
+        <select className='selectPage'
           value={this.state.rowsPerPage}
           onChange={(e) => this.setState({
             rowsPerPage: Number(e.target.value)
             })}
         >
+          <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
-          <option value={30}>30</option>
           <option value={this.state.businesses.length}>All</option>
         </select>
       </div>
 
-      <div>
-        {this.state.businesses.length > this.state.rowsPerPage && (
-          <div>
-            {Array.from(Array(Math.ceil(this.state.businesses.length / this.state.rowsPerPage)).keys()).map((pageNumber) => (
-              <button key={pageNumber} onClick={() => this.paginate(pageNumber + 1)}>
-                {pageNumber + 1}
-              </button>
-            ))}
-          </div>
-        )}
+      <div className='pageChange'>
+        <Button
+        className={"button"}
+          disabled={this.state.currentPage === 1}
+          onClick={() => this.pageChange(this.state.currentPage - 1)}
+        >
+          ⏮ Prev
+        </Button>
+
+        <Typography className={"button-text"} variant="body1" display="inline" gutterBottom>
+          Page {this.state.currentPage} of {totalPages}
+        </Typography>
+
+        <Button
+        className={"button"}
+          disabled={this.state.currentPage === totalPages}
+          onClick={() => this.pageChange(this.state.currentPage + 1)}
+        >
+          Next ⏭
+        </Button>
+      </div>
       </div>
 
-      {this.state.selectedOrder && (
-        <Modal 
-        open={this.state.isModalOpen} 
-        onClose={() => this.closeModal()}
-        >
-      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'slate', boxShadow: 24, p:4}}>
-          <Typography variant="h6" component="div" gutterBottom>
-            Order Details
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-          Total number of orders: {this.state.selectedOrder && this.state.selectedOrder.order_total}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-          Total amount of orders: {this.state.selectedOrder && this.state.selectedOrder.order_amt}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-          Total number of orders today: {this.state.selectedOrder && this.state.selectedOrder.today_order_total}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-          Total amount of orders today: {this.state.selectedOrder && this.state.selectedOrder.today_order_amt}
-          </Typography>
-
-          <Button onClick={this.closeModal()}>Close</Button>
-        </Box>
-        </Modal>
+      {this.state.isModalOpen && (
+       <div className="modal-overlay" onClick={this.closeModal}>
+       <div className="modal">
+           <Typography className="header" variant="body1" display="inline" gutterBottom>
+               Order Details
+           </Typography>
+           <Typography variant="body1" display="inline" gutterBottom>
+               Total number of orders: {this.state.selectedOrder.order_total}
+           </Typography>
+           <Typography variant="body1" display="inline" gutterBottom>
+               Total order sales: {this.state.selectedOrder.order_amt}
+           </Typography>
+           <Typography variant="body1" display="inline" gutterBottom>
+               Total number of orders today: {this.state.selectedOrder.today_order_total}
+           </Typography>
+           <Typography variant="body1" display="inline" gutterBottom>
+               Total sales today: {this.state.selectedOrder.today_order_amt}
+           </Typography>
+           
+           <Button onClick={this.closeModal}>Close</Button>
+       </div>
+   </div>
       )}
+
     </div>
     
     )
