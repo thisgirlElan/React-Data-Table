@@ -10,4 +10,4 @@
 ## 📋 Preview
 <img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/c7100c1c-0a96-4627-9249-f3fb66b90962.jpeg" height="50%" width="70%" /> 
 
-<img src="(https://github.com/thisgirlElan/React-Data-Table/assets/61628746/5c8bdd14-6934-4d02-9467-76785016aae4.jpeg" height="50%" width="70%" />
+<img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/5c8bdd14-6934-4d02-9467-76785016aae4.jpeg" height="50%" width="70%" />
