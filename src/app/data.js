@@ -8,8 +8,8 @@
     "details": {
         "order_total": "768",
         "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
+        "today_order_total": "57",
+        "today_order_amt": "5767.00"
     }
     },
     {
@@ -17,17 +17,8 @@
     "details": {
         "order_total": "987",
         "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
-    }
-    },
-    {
-        "item": "berries",
-    "details": {
-        "order_total": "890",
-        "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
+        "today_order_total": "76.00",
+        "today_order_amt": "57693.00"
     }
     }
     ]
@@ -101,35 +92,7 @@
     {
         "id": 4,
     "businessname": "Maite Mcintosh",
-       "order": [
-        {
-        "item": "cakes",
-    "details": {
-        "order_total": "768",
-        "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
-    }
-    },
-    {
-        "item": "blueberries",
-    "details": {
-        "order_total": "987",
-        "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
-    }
-    },
-    {
-        "item": "berries",
-    "details": {
-        "order_total": "890",
-        "order_amt": "57678893.00",
-        "today_order_total": "57678893.00",
-        "today_order_amt": "57678893.00"
-    }
-    }
-    ]
+       "order": []
     },
     {
         "id": 5,
