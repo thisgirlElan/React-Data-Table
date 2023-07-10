@@ -18,8 +18,19 @@ class BusinessTable extends Component {
   }
 
   componentDidMount() {
+    // todo: remove the setState; uncomment the fetch function;
     this.setState({businesses:BusinessData});
+    // this.fetchData();
   }
+
+  // todo: uncomment this function; write the url in the response;
+  // fetchData = async () => {
+  //   const response = await fetch("https://endpoint");
+  //   const data = await response.json();
+  //   this.setState({
+  //     businesses:data
+  //   });
+  // }
 
   openModal = (order) => {
     this.setState({
@@ -43,6 +54,10 @@ class BusinessTable extends Component {
   };
 
   render () {
+    // todo: uncomment the log; check ouput in the browser devtools console tab;
+    // map and append according to structure of data starting from line 81
+    // console.log("fetched business:", this.state.businesses)
+
     const indexOfLastRow = this.state.currentPage * this.state.rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - this.state.rowsPerPage;
     const currentRows = this.state.businesses.slice(indexOfFirstRow, indexOfLastRow);
