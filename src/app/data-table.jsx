@@ -5,11 +5,15 @@ import '../modal.css'
 import '../table.css'
 import '../footer.css'
 
+import {BUSINESS_URL, ORDERS_URL} from '../apiUtil';
+
 class BusinessTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      businesses: [],
+      business: [],
+      businessOrders: [],
+      mergedData: [],
       selectedOrder: {},
       isModalOpen: false,
       rowsPerPage: 5,
@@ -18,19 +22,51 @@ class BusinessTable extends Component {
   }
 
   componentDidMount() {
-    // todo: remove the setState; uncomment the fetch function;
-    this.setState({businesses:BusinessData});
-    // this.fetchData();
+    this.fetchBusiness();
+    this.fetchOrders();
   }
 
-  // todo: uncomment this function; write the url in the response;
-  // fetchData = async () => {
-  //   const response = await fetch("https://endpoint");
-  //   const data = await response.json();
-  //   this.setState({
-  //     businesses:data
-  //   });
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.business.length !== this.state.business.length || 
+      prevState.businessOrders.length !== this.state.businessOrders.length)
+      {
+        this.mergedData();
+      }
+  }
+
+ fetchBusiness = () => {
+    fetch(BUSINESS_URL)
+    .then(res => res.json())
+    .then(result => {
+      this.setState({
+        business: result
+      });
+    })
+    .catch(err => console.error("fetch error:", err))
+  }
+
+  fetchOrders = () => {
+    fetch(ORDERS_URL)
+    .then(res => res.json())
+    .then(result => {
+      this.setState({
+        businessOrders: result
+      });
+    })
+    .catch(err => console.error("fetch error:", err))
+  }
+
+  mergedData = () => {
+    const {business, businessOrders} = this.state;
+    const merged = business.map(business => {
+      const orders = businessOrders.find(order => order.businessId === business.id);
+      return {...business, orders};
+    });
+    console.log("merged:", merged);
+    this.setState({
+      mergedData: merged
+    });
+  }
 
   openModal = (order) => {
     this.setState({
@@ -53,15 +89,12 @@ class BusinessTable extends Component {
     })
   };
 
-  render () {
-    // todo: uncomment the log; check ouput in the browser devtools console tab;
-    // map and append according to structure of data starting from line 81
-    // console.log("fetched business:", this.state.businesses)
 
+  render () {
     const indexOfLastRow = this.state.currentPage * this.state.rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - this.state.rowsPerPage;
-    const currentRows = this.state.businesses.slice(indexOfFirstRow, indexOfLastRow);
-    const totalPages = Math.ceil(this.state.businesses.length / this.state.rowsPerPage)
+    const currentRows = this.state.mergedData.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(this.state.mergedData.length / this.state.rowsPerPage)
     
     return (
       <div className="main">
@@ -69,6 +102,7 @@ class BusinessTable extends Component {
       <table>
        <thead>
           <tr>
+            <th>ID</th>
             <th>Business</th>
             <th>Orders</th>
           </tr>
@@ -76,13 +110,15 @@ class BusinessTable extends Component {
         <tbody>
           {currentRows.map((business) => (
             <tr className="tcell" key={business.id}>
+              <td>{business.id}</td>
               <td>{business.businessname}</td>
               <td>
-                {business.order.length > 0 ? (
+                {business.orders ? (
                   <ul>
-                    {business.order.map((order, index) => (
-                    <li className="list" key={index} onClick={() => this.openModal(order)}>{order.item}</li>
-                    ))}
+                  {/* {...console.log("orders",business.orders)} */}
+                    {/* {business.orders.details.map((order, index) => ( */}
+                    <li className="list" key={business.orders.id} onClick={() => this.openModal(business.orders.details)}>{business.orders.name}</li>
+                    {/* ))} */}
                   </ul>
                 ) :  (
                   <ul>
@@ -108,7 +144,7 @@ class BusinessTable extends Component {
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={20}>20</option>
-          <option value={this.state.businesses.length}>All</option>
+          <option value={this.state.business.length}>All</option>
         </select>
       </div>
 
@@ -142,16 +178,16 @@ class BusinessTable extends Component {
                Order Details
            </Typography>
            <Typography variant="body1" display="inline" gutterBottom>
-               Total number of orders: {this.state.selectedOrder.order_total}
+               {/* Total number of orders: {this.state.selectedOrder.total_orders} */}
            </Typography>
            <Typography variant="body1" display="inline" gutterBottom>
-               Total order sales: {this.state.selectedOrder.order_amt}
+               Total order sales: {this.state.selectedOrder.total_sales}
            </Typography>
            <Typography variant="body1" display="inline" gutterBottom>
-               Total number of orders today: {this.state.selectedOrder.today_order_total}
+               Total number of orders today: {this.state.selectedOrder.orders_today}
            </Typography>
            <Typography variant="body1" display="inline" gutterBottom>
-               Total sales today: {this.state.selectedOrder.today_order_amt}
+               Total sales today: {this.state.selectedOrder.sales_today}
            </Typography>
            
            <Button onClick={this.closeModal}>Close</Button>
