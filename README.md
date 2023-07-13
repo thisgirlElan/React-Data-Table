@@ -9,10 +9,10 @@
 
 ## 📋 Preview
 - A display of businesses' sales data is displayed. You could choose the number of rows you'd like to browse through and/or navigate to the next or previous set of data.
-<img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/54f79bd9-8e25-40ac-b0aa-a24ec1a9d375.png" height="50%" width="70%" /> 
+<img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/54f79bd9-8e25-40ac-b0aa-a24ec1a9d375" height="50%" width="70%" /> 
 
 - The orders column lists business-specific orders with a click functionality that displays more data on the order.
-<img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/12beb8ee-acba-4efc-b59a-47d9f7f7dec4.png" height="50%" width="70%" />
+<img src="https://github.com/thisgirlElan/React-Data-Table/assets/61628746/12beb8ee-acba-4efc-b59a-47d9f7f7dec4" height="50%" width="70%" />
 
 
 ## 🚀 Installation
