@@ -175,7 +175,7 @@ class BusinessTable extends Component {
             </Button>
 
             <Typography
-              className={"button-text"}
+              style={{fontSize: '13px'}}
               variant="body1"
               display="inline"
               gutterBottom
